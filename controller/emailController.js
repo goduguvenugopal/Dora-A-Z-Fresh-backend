@@ -40,7 +40,7 @@ const sendMail = async (request, response) => {
     <body>
       <h2>Welcome to Dora A-Z Fresh!</h2>
       <p>Dear ${fullName}</p>
-      <p>Your One-Time Password (OTP) for logging in to your Dora A-Z Fresh account is : <strong>${otp}</strong>.</p>
+      <p>Your One-Time Password (OTP) for logging in to your Dora A-Z Fresh account is : <h3>${otp}</h3>.</p>
       <p><em>Please do not share this OTP with anyone. It is for your secure login only.</em></p>
       <p>If you didn't request this OTP, please ignore this email or contact our support team.</p>
       <p>Thank you for choosing Dora A-Z Fresh!</p>

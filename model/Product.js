@@ -14,6 +14,13 @@ const productSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  itemHalfKgCost: {
+    type: String,
+     
+  }, itemKgCost: {
+    type: String,
+    
+  },
   itemImage: {
     type: Array,
     required: true,
