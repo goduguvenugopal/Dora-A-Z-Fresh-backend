@@ -15,6 +15,7 @@ const saveProductController = async (request, response) => {
       minOrderQty,
       itemWeight,
       itemStock,
+      itemSubCategory,
       itemCategory,
       offerCost,
       productTags,
@@ -25,7 +26,8 @@ const saveProductController = async (request, response) => {
       !itemImage ||
       !itemCategory ||
       !itemStock ||
-      !productTags
+      !productTags ||
+      !itemSubCategory
     ) {
       return response
         .status(404)
@@ -40,6 +42,7 @@ const saveProductController = async (request, response) => {
       itemHalfKgCost,
       itemImage,
       itemQty,
+      itemSubCategory,
       minOrderQty,
       itemWeight,
       itemStock,

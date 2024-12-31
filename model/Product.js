@@ -44,6 +44,10 @@ const productSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  itemSubCategory: {
+    type: String,
+    required: true,
+  },
   offerCost: {
     type: String,
   },

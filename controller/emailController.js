@@ -33,14 +33,13 @@ const sendMail = async (request, response) => {
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: email,
-      subject:
-        "Dora A-Z Fresh: Your Login Code for Verification",
+      subject: "Dora A-Z Fresh: Your Login Code for Verification",
       html: `
   <html>
     <body>
       <h2>Welcome to Dora A-Z Fresh!</h2>
       <p>Dear ${fullName}</p>
-      <p>Your Login code for logging in to your Dora A-Z Fresh account is : <h3>${otp}</h3>.</p>
+      <p>Your Login code for logging in to your Dora A-Z Fresh account is : <h3>${otp}</h3></p>
       <p><em>Please do not share this Login code with anyone. It is for your secure login only.</em></p>
       <p>If you didn't request this Login code, please ignore this email or contact our support team.</p>
       <p>Thank you for choosing Dora A-Z Fresh!</p>
@@ -63,8 +62,9 @@ const sendMail = async (request, response) => {
 const verifyOtp = async (request, response) => {
   try {
     const { email, fullName, otp } = request.body;
-    if (!email || !otp || !fullName)
-      return res.status(400).send("Email and login code are required");
+    if (!email || !otp || !fullName) {
+      return response.status(400).send("Email and login code are required");
+    }
 
     if (otpStore[email] && otpStore[email] === parseInt(otp)) {
       delete otpStore[email];
@@ -93,9 +93,9 @@ const verifyOtp = async (request, response) => {
           .status(200)
           .json({ message: "Login code verified successful", token });
       }
+    } else {
+      return response.status(401).json({ message: "Login code is Invalid" });
     }
-
-    return response.status(401).json({ message: "Login code is Invalid" });
   } catch (error) {
     console.error(error);
     return response
