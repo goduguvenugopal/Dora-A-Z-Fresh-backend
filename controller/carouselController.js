@@ -4,6 +4,12 @@ const Carousel = require("../model/Carousel");
 const saveCarousel = async (request, response) => {
   try {
     const { offerTitle, carouselImage } = request.body;
+    const prevCarousel = Carousel.find();
+    if ((await prevCarousel).length === 1) {
+      return response.status(401).json({
+        message: "carousel already existed in db",
+      });
+    }
     const saveImages = new Carousel({
       offerTitle,
       carouselImage,
