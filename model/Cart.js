@@ -11,6 +11,10 @@ const cartSchema = new mongoose.Schema({
     required: true,
     default: [],
   },
+  productId : {
+    type: String,
+    required: true,
+  }
 });
 
 
