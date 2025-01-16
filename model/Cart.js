@@ -11,13 +11,16 @@ const cartSchema = new mongoose.Schema({
     required: true,
     default: [],
   },
-  productId : {
+  productId: {
     type: String,
     required: true,
-  }
+  },
+  totalAmount: {
+    type: String,
+    required: true,
+  },
 });
 
+const Cart = mongoose.model("Cart", cartSchema);
 
-const Cart = mongoose.model("Cart", cartSchema)
-
-module.exports = Cart
+module.exports = Cart;
