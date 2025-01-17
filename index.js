@@ -13,7 +13,7 @@ const categoryRoute = require("./routes/categoryRoute");
 const addressRoute = require("./routes/shippingAdressRoute");
 const orderRoute = require("./routes/orderRoute");
 const updatesMailRoute = require("./routes/updatesMailRoute");
-
+const offerRoute = require("./routes/offerRoute");
 
 // server port
 const port = process.env.PORT || 3000;
@@ -34,7 +34,8 @@ app.use("/carousel", carouselRoute);
 app.use("/category", categoryRoute);
 app.use("/address", addressRoute);
 app.use("/order", orderRoute);
-app.use("/updates-email",updatesMailRoute)
+app.use("/updates-email", updatesMailRoute);
+app.use("/offer", offerRoute);
 
 // server listens function
 app.listen(port, () => {
