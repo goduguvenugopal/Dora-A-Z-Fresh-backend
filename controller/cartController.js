@@ -47,6 +47,26 @@ const getUserCartProducts = async (request, response) => {
   }
 };
 
+// update cart product
+const updateCartProduct = async (request, response) => {
+  try {
+    const updateData = req.body;
+    await Cart.findByIdAndUpdate(
+      request.params.id,
+      { $set: updateData },
+      { new: true }
+    );
+    return response.status(200).json({
+      message: "user cart product updated successfully",
+    });
+  } catch (error) {
+    console.error(error);
+    return response
+      .status(500)
+      .json({ message: "internal server error", error });
+  }
+};
+
 // delete cart product Controller
 
 const deleteCartProduct = async (request, response) => {
@@ -63,4 +83,4 @@ const deleteCartProduct = async (request, response) => {
   }
 };
 
-module.exports = { addToCart, getUserCartProducts, deleteCartProduct };
+module.exports = { addToCart, getUserCartProducts, updateCartProduct, deleteCartProduct };

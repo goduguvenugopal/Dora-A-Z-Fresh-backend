@@ -38,11 +38,13 @@ const getOffers = async (req, res) => {
 // Update an offer by ID
 const updateOffer = async (req, res) => {
   try {
+    const updateOffer = req.body;
     const { id } = req.params;
-    const updatedOffer = await Offer.findByIdAndUpdate(id, req.body, {
-      new: true,
-      runValidators: true,
-    });
+    const updatedOffer = await Offer.findByIdAndUpdate(
+      id,
+      { $set: updateOffer },
+      { new: true }
+    );
     if (!updatedOffer) {
       return res.status(404).json({ message: "Offer not found" });
     }

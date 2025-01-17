@@ -9,6 +9,7 @@ router.get(
   verifyToken,
   cartController.getUserCartProducts
 );
+router.put("/update-cart/:id", cartController.updateCartProduct);
 router.delete(
   "/delete-user-cart-product/:id",
   cartController.deleteCartProduct
