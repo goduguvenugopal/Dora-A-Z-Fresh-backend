@@ -50,7 +50,7 @@ const getUserCartProducts = async (request, response) => {
 // update cart product
 const updateCartProduct = async (request, response) => {
   try {
-    const updateData = req.body;
+    const updateData = request.body;
     await Cart.findByIdAndUpdate(
       request.params.id,
       { $set: updateData },
