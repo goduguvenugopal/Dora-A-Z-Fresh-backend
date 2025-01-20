@@ -29,7 +29,7 @@ const orderSchema = new mongoose.Schema({
     required: true,
   },
   totalAmount: {
-    type: Number,
+    type: String,
     required: true,
   },
   delayMessage : {
