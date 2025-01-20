@@ -3,7 +3,8 @@ const Cart = require("../model/Cart");
 // creating cart products save controller
 const addToCart = async (request, response) => {
   try {
-    const { products, productId, totalAmount, itemQty } = request.body;
+    const { products, productId, totalAmount, itemQty, orderType } =
+      request.body;
     const decodedId = request.userId;
     if (!decodedId) {
       return response.status(404).json({ message: "userId required" });
@@ -15,6 +16,7 @@ const addToCart = async (request, response) => {
       productId,
       totalAmount,
       itemQty,
+      orderType,
     });
 
     await saveCartProducts.save();
@@ -83,4 +85,9 @@ const deleteCartProduct = async (request, response) => {
   }
 };
 
-module.exports = { addToCart, getUserCartProducts, updateCartProduct, deleteCartProduct };
+module.exports = {
+  addToCart,
+  getUserCartProducts,
+  updateCartProduct,
+  deleteCartProduct,
+};
