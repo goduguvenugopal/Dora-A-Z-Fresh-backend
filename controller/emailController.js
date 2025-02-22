@@ -29,25 +29,26 @@ const sendMail = async (request, response) => {
     const otp = crypto.randomInt(100000, 999999);
     otpStore[email] = otp;
 
-    // send otp
+    // mailOptions 
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: email,
-      subject: "Dora A-Z Fresh: Your Login Code for Verification",
+      subject: "Your One-Time Code for Secure Login",
+      text: `Hello ${fullName},\n\nYour login code is: ${otp}\nPlease do not share this with anyone.`,
       html: `
-  <html>
-    <body>
-      <h2>Welcome to Dora A-Z Fresh!</h2>
-      <p>Dear ${fullName}</p>
-      <p>Your Login code for logging in to your Dora A-Z Fresh account is : <h3>${otp}</h3></p>
-      <p><em>Please do not share this Login code with anyone. It is for your secure login only.</em></p>
-      <p>If you didn't request this Login code, please ignore this email or contact our support team.</p>
-      <p>Thank you for choosing Dora A-Z Fresh!</p>
-      <p>Best regards,<br />The Dora A-Z Fresh</p>
-    </body>
-  </html>
-`,
+        <html>
+          <body>
+            <h2>Welcome to Dora A-Z Fresh!</h2>
+            <p>Dear ${fullName},</p>
+            <p>Your Login code for logging in to your Dora A-Z Fresh account is: <h3>${otp}</h3></p>
+            <p><em>Please do not share this Login code with anyone.</em></p>
+            <p>Thank you for choosing Dora A-Z Fresh!</p>
+            <p>Best regards,<br />The Dora A-Z Fresh</p>
+          </body>
+        </html>
+      `,
     };
+    
     await transporter.sendMail(mailOptions);
     return response
       .status(201)
