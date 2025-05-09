@@ -4,6 +4,7 @@ const app = express();
 const cors = require("cors");
 const mongodbConnection = require("./mongodb");
 const corsOptions = require("./cors");
+const cors = require("cors")
 const emailRoute = require("./routes/emailRoute");
 const userRoute = require("./routes/userRoutes");
 const productRoute = require("./routes/productRoute");
