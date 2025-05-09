@@ -20,7 +20,7 @@ const offerRoute = require("./routes/offerRoute");
 const port = process.env.PORT || 3000;
 
 // middlewares
-app.use(cors());
+app.use(cors("*"));
 app.use(express.json());
 
 // route middlewares
