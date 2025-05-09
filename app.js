@@ -1,9 +1,9 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
 const cors = require("cors");
 const mongodbConnection = require("./mongodb");
 const corsOptions = require("./cors");
-require("dotenv").config();
 const emailRoute = require("./routes/emailRoute");
 const userRoute = require("./routes/userRoutes");
 const productRoute = require("./routes/productRoute");
