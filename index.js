@@ -18,9 +18,6 @@ const offerRoute = require("./routes/offerRoute");
 // server port
 const port = process.env.PORT || 3000;
 
-// mongodb function calling here
-mongodbConnection();
-
 // middlewares
 app.use(cors(corsOptions));
 app.use(express.json());
@@ -38,6 +35,12 @@ app.use("/updates-email", updatesMailRoute);
 app.use("/offer", offerRoute);
 
 // server listens function
-app.listen(port, () => {
-  console.log(`server is running at port number : ${port}`);
+app.listen(port, async () => {
+  try {
+    // mongodb function calling here
+    await mongodbConnection();
+    console.log(`server is running at port number : ${port}`);
+  } catch (error) {
+    console.log(error);
+  }
 });
