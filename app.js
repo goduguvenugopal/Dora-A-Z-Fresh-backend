@@ -19,7 +19,7 @@ const offerRoute = require("./routes/offerRoute");
 
 // middlewares
 app.use(cors(corsOptions));
-app.use(cors())
+// app.use(cors())
 app.use(express.json());
 
 // route middlewares
