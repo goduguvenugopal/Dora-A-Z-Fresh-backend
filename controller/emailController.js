@@ -18,7 +18,9 @@ const sendMail = async (request, response) => {
     }
     // Nodemailer transporter
     const transporter = nodeMailer.createTransport({
-      service: "gmail",
+      host: process.env.EMAIL_HOST || "smtp.gmail.com",
+      port: parseInt(process.env.EMAIL_PORT) || 587, // 465 for SSL
+      secure: process.env.EMAIL_PORT === "465", // true for 465, false for 587
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
@@ -29,7 +31,7 @@ const sendMail = async (request, response) => {
     const otp = crypto.randomInt(100000, 999999);
     otpStore[email] = otp;
 
-    // mailOptions 
+    // mailOptions
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: email,
@@ -48,7 +50,7 @@ const sendMail = async (request, response) => {
         </html>
       `,
     };
-    
+
     await transporter.sendMail(mailOptions);
     return response
       .status(201)
