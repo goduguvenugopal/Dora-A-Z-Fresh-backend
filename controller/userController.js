@@ -3,6 +3,13 @@ const User = require("../model/User");
 //fetch all users controller
 const getAllUsers = async (request, response) => {
   try {
+    const userId = request.userId;
+    const isExistUser = await User.findById(userId);
+    if (isExistUser.role !== "admin") {
+      return response
+        .status(403)
+        .json({ error: "only admin can get all user details" });
+    }
     const allUsers = await User.find();
     if (!allUsers) {
       return response.status(404).json({ message: "users not found" });
@@ -23,7 +30,9 @@ const getSingleUser = async (request, response) => {
     if (!singleUser) {
       return response.status(404).json({ message: "user not found" });
     }
-    return response.status(200).json({message : "single user retrieved successfully" , singleUser});
+    return response
+      .status(200)
+      .json({ message: "single user retrieved successfully", singleUser });
   } catch (error) {
     console.error(error);
     return response
@@ -32,13 +41,18 @@ const getSingleUser = async (request, response) => {
   }
 };
 
-
-
 // update user role controller
 const updateUser = async (request, response) => {
   try {
     const { role } = request.body;
     const { id } = request.params;
+    const userId = request.userId;
+    const isExistUser = await User.findById(userId);
+    if (isExistUser.role !== "admin") {
+      return response
+        .status(403)
+        .json({ error: "only admin can update user details" });
+    }
     await User.findByIdAndUpdate(id, { $set: { role: role } }, { new: true });
     return response
       .status(200)
@@ -54,7 +68,15 @@ const updateUser = async (request, response) => {
 // delete user
 const deleteUser = async (request, response) => {
   try {
-    await User.findByIdAndDelete(request.params.id);
+    const { id } = request.params;
+    const userId = request.userId;
+    const isExistUser = await User.findById(userId);
+    if (isExistUser.role !== "admin") {
+      return response
+        .status(403)
+        .json({ error: "only admin can delete user details" });
+    }
+    await User.findByIdAndDelete(id);
     return response.status(200).json({ message: "user deleted successfully" });
   } catch (error) {
     console.error(error);
@@ -64,4 +86,4 @@ const deleteUser = async (request, response) => {
   }
 };
 
-module.exports = { getAllUsers, getSingleUser, updateUser , deleteUser};
+module.exports = { getAllUsers, getSingleUser, updateUser, deleteUser };

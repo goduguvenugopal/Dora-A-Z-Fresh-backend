@@ -1,9 +1,17 @@
 const Carousel = require("../model/Carousel");
+const User = require("../model/User")
 
 // creating Carousel  controller
 const saveCarousel = async (request, response) => {
   try {
     const { offerTitle, carouselImage } = request.body;
+    const userId = request.userId;
+    const isExistUser = await User.findById(userId);
+    if (isExistUser.role !== "admin") {
+      return response
+        .status(403)
+        .json({ error: "only admin can get all user details" });
+    }
     const prevCarousel = Carousel.find();
     if ((await prevCarousel).length === 1) {
       return response.status(401).json({
@@ -46,6 +54,13 @@ const getCarousel = async (request, response) => {
 const updateCarousel = async (request, response) => {
   try {
     const carouselData = request.body;
+    const userId = request.userId;
+    const isExistUser = await User.findById(userId);
+    if (isExistUser.role !== "admin") {
+      return response
+        .status(403)
+        .json({ error: "only admin can get all user details" });
+    }
     await Carousel.findByIdAndUpdate(
       request.params.id,
       { $set: carouselData },
@@ -65,7 +80,15 @@ const updateCarousel = async (request, response) => {
 // delete carousel  controller
 const deleteCarousel = async (request, response) => {
   try {
+    const userId = request.userId;
+    const isExistUser = await User.findById(userId);
+    if (isExistUser.role !== "admin") {
+      return response
+        .status(403)
+        .json({ error: "only admin can get all user details" });
+    }
     await Carousel.findByIdAndDelete(request.params.id);
+
     return response.status(200).json({
       message: "carousel deleted successfully",
     });

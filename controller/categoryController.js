@@ -1,8 +1,16 @@
 const productCategory = require("../model/ProductCategory");
+const User = require("../model/User");
 
 // creating product category controller
 const saveProductCategory = async (request, response) => {
   try {
+    const userId = request.userId;
+    const isExistUser = await User.findById(userId);
+    if (isExistUser.role !== "admin") {
+      return response
+        .status(403)
+        .json({ error: "only admin can get all user details" });
+    }
     const { productCategoryName, productImage, available } = request.body;
     if (!productCategoryName || !productImage || !available) {
       return response
@@ -48,6 +56,13 @@ const getAllCategoryProducts = async (request, response) => {
 const updateCategoryProduct = async (request, response) => {
   try {
     const updateCategoryDetails = request.body;
+    const userId = request.userId;
+    const isExistUser = await User.findById(userId);
+    if (isExistUser.role !== "admin") {
+      return response
+        .status(403)
+        .json({ error: "only admin can get all user details" });
+    }
     await productCategory.findByIdAndUpdate(
       request.params.id,
       { $set: updateCategoryDetails },
@@ -67,6 +82,13 @@ const updateCategoryProduct = async (request, response) => {
 // delete category products
 const deleteCategory = async (request, response) => {
   try {
+    const userId = request.userId;
+    const isExistUser = await User.findById(userId);
+    if (isExistUser.role !== "admin") {
+      return response
+        .status(403)
+        .json({ error: "only admin can get all user details" });
+    }
     await productCategory.findByIdAndDelete(request.params.id);
     return response.status(201).json({
       message: "category products deleted successfully",

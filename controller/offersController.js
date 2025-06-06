@@ -1,8 +1,16 @@
 const Offer = require("../model/Offer");
+const User = require("../model/User");
 
 // Create a new offer
 const createOffer = async (req, res) => {
   try {
+    const userId = req.userId;
+    const isExistUser = await User.findById(userId);
+    if (isExistUser.role !== "admin") {
+      return response
+        .status(403)
+        .json({ error: "this is restricted : admin only " });
+    }
     const { sevenDays, tenDays, twentyDays, thirtyDays, deliveryCharges } =
       req.body;
     const existOffer = await Offer.find();
@@ -38,6 +46,13 @@ const getOffers = async (req, res) => {
 // Update an offer by ID
 const updateOffer = async (req, res) => {
   try {
+    const userId = req.userId;
+    const isExistUser = await User.findById(userId);
+    if (isExistUser.role !== "admin") {
+      return response
+        .status(403)
+        .json({ error: "this is restricted : admin only " });
+    }
     const updateOffer = req.body;
     const { id } = req.params;
     const updatedOffer = await Offer.findByIdAndUpdate(

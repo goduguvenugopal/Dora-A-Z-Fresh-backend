@@ -1,9 +1,18 @@
-const { response } = require("express");
 const Product = require("../model/Product");
+const User = require("../model/User");
 
 //  save product details controller
 const saveProductController = async (request, response) => {
   try {
+    // user can only add products
+    const userId = request.userId;
+    const isExistUser = await User.findById(userId);
+    if (isExistUser.role !== "admin") {
+      return response
+        .status(403)
+        .json({ error: "this is restricted : admin only " });
+    }
+
     const {
       itemName,
       itemDescription,
@@ -20,6 +29,7 @@ const saveProductController = async (request, response) => {
       offerCost,
       productTags,
     } = request.body;
+
     if (
       !itemName ||
       !itemCost ||
@@ -97,6 +107,13 @@ const getSingleProduct = async (request, response) => {
 // update product details
 const updateProductDetails = async (request, response) => {
   try {
+    const userId = request.userId;
+    const isExistUser = await User.findById(userId);
+    if (isExistUser.role !== "admin") {
+      return response
+        .status(403)
+        .json({ error: "this is restricted : admin only " });
+    }
     const productData = request.body;
     const { id } = request.params;
     await Product.findByIdAndUpdate(id, { $set: productData }, { new: true });
@@ -114,6 +131,13 @@ const updateProductDetails = async (request, response) => {
 // delete product controller
 const deleteProduct = async (request, response) => {
   try {
+    const userId = request.userId;
+    const isExistUser = await User.findById(userId);
+    if (isExistUser.role !== "admin") {
+      return response
+        .status(403)
+        .json({ error: "this is restricted : admin only " });
+    }
     await Product.findByIdAndDelete(request.params.id);
     return response
       .status(200)
