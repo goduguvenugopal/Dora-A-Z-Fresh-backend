@@ -16,10 +16,9 @@ const productSchema = mongoose.Schema({
   },
   itemHalfKgCost: {
     type: String,
-     
-  }, itemKgCost: {
+  },
+  itemKgCost: {
     type: String,
-    
   },
   itemImage: {
     type: Array,
@@ -49,6 +48,9 @@ const productSchema = mongoose.Schema({
     required: true,
   },
   offerCost: {
+    type: String,
+  },
+  offerMessage: {
     type: String,
   },
   productTags: {

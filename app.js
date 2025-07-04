@@ -16,10 +16,9 @@ const updatesMailRoute = require("./routes/updatesMailRoute");
 const offerRoute = require("./routes/offerRoute");
 
 // server port
-
 // middlewares
-app.use(cors(corsOptions));
-// app.use(cors())
+// app.use(cors(corsOptions));
+app.use(cors())
 app.use(express.json());
 
 // route middlewares
@@ -33,7 +32,6 @@ app.use("/address", addressRoute);
 app.use("/order", orderRoute);
 app.use("/updates-email", updatesMailRoute);
 app.use("/offer", offerRoute);
-
 
 const port = process.env.PORT || 3000;
 

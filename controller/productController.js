@@ -28,6 +28,7 @@ const saveProductController = async (request, response) => {
       itemCategory,
       offerCost,
       productTags,
+      offerMessage
     } = request.body;
 
     if (
@@ -58,6 +59,7 @@ const saveProductController = async (request, response) => {
       itemStock,
       itemCategory,
       offerCost,
+      offerMessage,
       productTags,
     });
     await saveProducts.save();
