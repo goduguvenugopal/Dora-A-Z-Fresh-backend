@@ -117,6 +117,8 @@ const updateProductDetails = async (request, response) => {
         .json({ error: "this is restricted : admin only " });
     }
     const productData = request.body;
+    
+    
     const { id } = request.params;
     await Product.findByIdAndUpdate(id, { $set: productData }, { new: true });
     return response
