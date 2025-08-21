@@ -19,7 +19,7 @@ const sendMail = async (request, response) => {
     // Nodemailer transporter
     const transporter = nodeMailer.createTransport({
       host: process.env.EMAIL_HOST || "smtp.gmail.com",
-      port: parseInt(process.env.EMAIL_PORT) || 587, 
+      port: parseInt(process.env.EMAIL_PORT) || 587,
       secure: process.env.EMAIL_PORT === "465",
       auth: {
         user: process.env.EMAIL_USER,
@@ -35,20 +35,32 @@ const sendMail = async (request, response) => {
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: email,
-      subject: "Your One-Time Code for Secure Login",
-      text: `Hello ${fullName},\n\nYour login code is: ${otp}\nPlease do not share this with anyone.`,
+      subject: "Your One-Time Password (OTP) for Secure Login - Dora A-Z Fresh",
+      text: `Hello ${fullName},
+
+Your one-time password (OTP) is: ${otp}
+
+⚠️ Please do not share this code with anyone.
+
+Thank you for choosing Dora A-Z Fresh!
+Best regards,  
+The Dora A-Z Fresh Team`,
       html: `
-        <html>
-          <body>
-            <h2>Welcome to Dora A-Z Fresh!</h2>
-            <p>Dear ${fullName},</p>
-            <p>Your Login code for logging in to your Dora A-Z Fresh account is: <h3>${otp}</h3></p>
-            <p><em>Please do not share this Login code with anyone.</em></p>
-            <p>Thank you for choosing Dora A-Z Fresh!</p>
-            <p>Best regards,<br />The Dora A-Z Fresh</p>
-          </body>
-        </html>
-      `,
+    <html>
+      <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+        <div style="max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px;">
+          <h2 style="color: #2E7D32;">Welcome to Dora A-Z Fresh!</h2>
+          <p>Dear <strong>${fullName}</strong>,</p>
+          <p>Your one-time password (OTP) for logging in to your Dora A-Z Fresh account is:</p>
+          <p style="font-size: 22px; font-weight: bold; color: #d32f2f;">${otp}</p>
+          <p style="color: #555;"><em>⚠️ Please do not share this code with anyone for your security.</em></p>
+          <br />
+          <p>Thank you for trusting <strong>Dora A-Z Fresh</strong> for your daily needs!</p>
+          <p>Best regards,<br /><strong>The Dora A-Z Fresh Team</strong></p>
+        </div>
+      </body>
+    </html>
+  `,
     };
 
     await transporter.sendMail(mailOptions);
