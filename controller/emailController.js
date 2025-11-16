@@ -4,6 +4,7 @@ const crypto = require("crypto");
 require("dotenv").config();
 const User = require("../model/User");
 const jwt = require("jsonwebtoken");
+const { default: brevo } = require("./brevoClient");
 
 const secretKey = process.env.SECRETKEY;
 
@@ -17,35 +18,26 @@ const sendMail = async (request, response) => {
       return response.status(404).json({ message: "required credentials" });
     }
     // Nodemailer transporter
-    const transporter = nodeMailer.createTransport({
-      host: process.env.EMAIL_HOST,
-      port: 587,
-      secure: false,
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-    });
+    // const transporter = nodeMailer.createTransport({
+    //   host: process.env.EMAIL_HOST,
+    //   port: 587,
+    //   secure: false,
+    //   auth: {
+    //     user: process.env.EMAIL_USER,
+    //     pass: process.env.EMAIL_PASS,
+    //   },
+    // });
 
     // generating 6 digits otp
     const otp = crypto.randomInt(100000, 999999);
     otpStore[email] = otp;
 
     // mailOptions
-    const mailOptions = {
-      from: process.env.EMAIL_FROM,
-      to: email,
+    await brevo.sendTransacEmail({
+      sender: { email: process.env.EMAIL_FROM },
+      to: [{ email }],
       subject: "Your One-Time Password (OTP) for Secure Login - Dora A-Z Fresh",
-      text: `Hello ${fullName},
-
-Your one-time password (OTP) is: ${otp}
-
-⚠️ Please do not share this code with anyone.
-
-Thank you for choosing Dora A-Z Fresh!
-Best regards,  
-The Dora A-Z Fresh Team`,
-      html: `
+      htmlContent: `
     <html>
       <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
         <div style="max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px;">
@@ -61,9 +53,9 @@ The Dora A-Z Fresh Team`,
       </body>
     </html>
   `,
-    };
+    })
 
-    await transporter.sendMail(mailOptions);
+    // await transporter.sendMail(mailOptions);
     return response
       .status(201)
       .json({ message: "Login otp sent successfully" });

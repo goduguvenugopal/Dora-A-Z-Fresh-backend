@@ -1,4 +1,5 @@
 const nodeMailer = require("nodemailer");
+const { default: brevo } = require("./brevoClient");
 require("dotenv").config();
 
 // creating mail controller
@@ -11,23 +12,23 @@ const updatesMailController = async (request, response) => {
         .json({ message: "required email subject and html content" });
     }
 
-    // creating transporter
-    const transporter = nodeMailer.createTransport({
-      host: process.env.EMAIL_HOST,
-      port: 587,
-      secure: false,
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-    });
+    // // creating transporter
+    // const transporter = nodeMailer.createTransport({
+    //   host: process.env.EMAIL_HOST,
+    //   port: 587,
+    //   secure: false,
+    //   auth: {
+    //     user: process.env.EMAIL_USER,
+    //     pass: process.env.EMAIL_PASS,
+    //   },
+    // });
 
-    const mailOptions = {
-      from: process.env.EMAIL_FROM,
-      to: email,
+    await brevo.sendTransacEmail({
+      sender: { email: process.env.EMAIL_FROM },
+      to: [{ email }],
       subject: subject,
-      html: html,
-    };
+      htmlContent: html,
+    });
 
     await transporter.sendMail(mailOptions);
 
