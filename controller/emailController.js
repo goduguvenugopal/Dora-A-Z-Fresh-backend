@@ -23,7 +23,6 @@ const sendMail = async (request, response) => {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
       },
-       connectionTimeout: 20000,
     });
 
     // generating 6 digits otp
