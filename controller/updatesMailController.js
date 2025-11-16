@@ -1,4 +1,5 @@
 const nodeMailer = require("nodemailer");
+const { sendEmail } = require("./gmailApiSender");
 require("dotenv").config();
 
 // creating mail controller
@@ -11,24 +12,30 @@ const updatesMailController = async (request, response) => {
         .json({ message: "required email subject and html content" });
     }
 
-    // creating transporter
-    const transporter = nodeMailer.createTransport({
-     service: "gmail",
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-    });
+    // // creating transporter
+    // const transporter = nodeMailer.createTransport({
+    //  service: "gmail",
+    //   auth: {
+    //     user: process.env.EMAIL_USER,
+    //     pass: process.env.EMAIL_PASS,
+    //   },
+    // });
 
-    const mailOptions = {
-      from: process.env.EMAIL_USER,
+    // const mailOptions = {
+    //   from: process.env.EMAIL_USER,
+    //   to: email,
+    //   subject: subject,
+    //   html: html,
+    // };
+
+    // await transporter.sendMail(mailOptions);
+
+
+     await sendEmail({
       to: email,
-      subject: subject,
-      html: html,
-    };
-
-    await transporter.sendMail(mailOptions);
-
+      subject,
+      html,
+     })
     return response
       .status(201)
       .json({ message: "email has sent successfully" });

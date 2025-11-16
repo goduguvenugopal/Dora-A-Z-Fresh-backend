@@ -18,8 +18,8 @@ const homeDataRouter = require("./controller/homeDataRoute");
 
 // server port
 // middlewares
-app.use(cors(corsOptions));
-// app.use(cors("*"));
+// app.use(cors(corsOptions));
+app.use(cors("*"));
 app.use(express.json());
 
 // route middlewares
