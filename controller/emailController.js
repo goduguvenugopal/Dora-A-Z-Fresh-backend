@@ -18,14 +18,12 @@ const sendMail = async (request, response) => {
     }
     // Nodemailer transporter
     const transporter = nodeMailer.createTransport({
-      host: process.env.EMAIL_HOST,
-      port: parseInt(process.env.EMAIL_PORT) || 587,
-      secure: parseInt(process.env.EMAIL_PORT) === 465,
+       service: "gmail",
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
       },
-       connectionTimeout: 10000,
+       connectionTimeout: 20000,
     });
 
     // generating 6 digits otp
