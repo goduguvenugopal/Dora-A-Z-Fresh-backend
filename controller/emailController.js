@@ -1,7 +1,5 @@
 const nodeMailer = require("nodemailer");
-require("dotenv").config();
 const crypto = require("crypto");
-require("dotenv").config();
 const User = require("../model/User");
 const jwt = require("jsonwebtoken");
 const { default: brevo } = require("./brevoClient");
@@ -17,17 +15,7 @@ const sendMail = async (request, response) => {
     if (!email) {
       return response.status(404).json({ message: "required credentials" });
     }
-    // Nodemailer transporter
-    // const transporter = nodeMailer.createTransport({
-    //   host: process.env.EMAIL_HOST,
-    //   port: 587,
-    //   secure: false,
-    //   auth: {
-    //     user: process.env.EMAIL_USER,
-    //     pass: process.env.EMAIL_PASS,
-    //   },
-    // });
-
+    
     // generating 6 digits otp
     const otp = crypto.randomInt(100000, 999999);
     otpStore[email] = otp;

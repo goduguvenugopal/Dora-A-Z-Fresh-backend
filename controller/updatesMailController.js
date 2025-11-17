@@ -12,16 +12,6 @@ const updatesMailController = async (request, response) => {
         .json({ message: "required email subject and html content" });
     }
 
-    // // creating transporter
-    // const transporter = nodeMailer.createTransport({
-    //   host: process.env.EMAIL_HOST,
-    //   port: 587,
-    //   secure: false,
-    //   auth: {
-    //     user: process.env.EMAIL_USER,
-    //     pass: process.env.EMAIL_PASS,
-    //   },
-    // });
 
     await brevo.sendTransacEmail({
       sender: { email: process.env.EMAIL_FROM },
@@ -30,7 +20,6 @@ const updatesMailController = async (request, response) => {
       htmlContent: html,
     });
 
-    await transporter.sendMail(mailOptions);
 
     return response
       .status(201)
