@@ -12,14 +12,12 @@ const updatesMailController = async (request, response) => {
         .json({ message: "required email subject and html content" });
     }
 
-
     await brevo.sendTransacEmail({
       sender: { email: process.env.EMAIL_FROM },
-      to: [{ email }],
+      to: [{ email }, { email: "dora.a.to.z.fresh@gmail.com" }],
       subject: subject,
       htmlContent: html,
     });
-
 
     return response
       .status(201)
