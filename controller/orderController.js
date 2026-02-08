@@ -38,7 +38,7 @@ const saveOrder = async (request, response) => {
     const customerName = shippingAddress?.[0]?.name || "Customer";
 
     // SEND PUSH
-    sendAdminPush({
+  await sendAdminPush({
       title: "🛒 New Order Received",
       body: `You got an order from ${customerName} • ₹${totalAmount}`,
       url: "/",
@@ -84,7 +84,7 @@ const orderUpdateController = async (request, response) => {
     const customerName = updatedOrder.shippingAddress?.[0]?.name || "Customer";
 
     // 🔔 SEND PUSH TO ADMIN
-    sendAdminPush({
+   await sendAdminPush({
       title: "📦 Order Status Updated",
       body: `Order from ${customerName} is now ${orderStatus}`,
       url: `/order_over_view/${id}`,
