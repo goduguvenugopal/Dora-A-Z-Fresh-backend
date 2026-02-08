@@ -1,5 +1,5 @@
- 
-import Sib from "@sendinblue/client";
+// brevoClient.js
+const Sib = require("@sendinblue/client");
 
 const brevo = new Sib.TransactionalEmailsApi();
 
@@ -9,4 +9,4 @@ brevo.setApiKey(
   process.env.BREVO_API_KEY
 );
 
-export default brevo;
+module.exports = brevo;
