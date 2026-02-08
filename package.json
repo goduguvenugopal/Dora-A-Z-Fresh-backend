@@ -4,7 +4,7 @@
   "description": "",
   "main": " app.js",
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "nodemon server.js"
   },
   "keywords": [],
   "author": "venugopal",
@@ -19,6 +19,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.9.1",
     "nodemailer": "^6.9.16",
-    "nodemon": "^3.1.9"
+    "nodemon": "^3.1.9",
+    "web-push": "^3.6.7"
   }
 }

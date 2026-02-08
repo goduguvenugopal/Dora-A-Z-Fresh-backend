@@ -1,7 +1,6 @@
 require("dotenv").config();
 const express = require("express");
 const app = express();
-const mongodbConnection = require("./mongodb");
 const corsOptions = require("./cors");
 const cors = require("cors");
 const emailRoute = require("./routes/emailRoute");
@@ -15,6 +14,8 @@ const orderRoute = require("./routes/orderRoute");
 const updatesMailRoute = require("./routes/updatesMailRoute");
 const offerRoute = require("./routes/offerRoute");
 const homeDataRouter = require("./controller/homeDataRoute");
+const pushRouter = require("./routes/pushRoute")
+
 
 // server port
 // middlewares
@@ -34,16 +35,7 @@ app.use("/order", orderRoute);
 app.use("/updates-email", updatesMailRoute);
 app.use("/offer", offerRoute);
 app.use("/api", homeDataRouter);
+app.use("/api" , pushRouter )
 
-const port = process.env.PORT || 3000;
 
-// server listens function
-app.listen(port, "0.0.0.0", async () => {
-  try {
-    // mongodb function calling here
-    await mongodbConnection();
-    console.log(`server is running at port number : ${port}`);
-  } catch (error) {
-    console.log(error);
-  }
-});
+module.exports = app

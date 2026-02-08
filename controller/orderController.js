@@ -1,4 +1,5 @@
 const Order = require("../model/Order");
+const sendAdminPush = require("../utils/sendAdminPush");
 
 //  creating place order constroller
 const saveOrder = async (request, response) => {
@@ -32,6 +33,17 @@ const saveOrder = async (request, response) => {
       orderDate: currentDate,
     });
     await placeOrder.save();
+
+    // extract customer name
+    const customerName = shippingAddress?.[0]?.name || "Customer";
+
+    // SEND PUSH
+    sendAdminPush({
+      title: "🛒 New Order Received",
+      body: `You got an order from ${customerName} • ₹${totalAmount}`,
+      url: "/",
+    });
+
     return response.status(201).json({ message: "order placed successful" });
   } catch (error) {
     console.error(error);
@@ -62,11 +74,22 @@ const orderUpdateController = async (request, response) => {
     const { orderStatus } = request.body;
     const id = request.params.id;
     const orderUpdatedDate = new Date().toLocaleDateString("en-GB");
-    await Order.findByIdAndUpdate(
+    const updatedOrder = await Order.findByIdAndUpdate(
       id,
       { $set: { orderStatus: orderStatus, orderStatusDate: orderUpdatedDate } },
-      { new: true }
+      { new: true },
     );
+
+    // extract customer name safely
+    const customerName = updatedOrder.shippingAddress?.[0]?.name || "Customer";
+
+    // 🔔 SEND PUSH TO ADMIN
+    sendAdminPush({
+      title: "📦 Order Status Updated",
+      body: `Order from ${customerName} is now ${orderStatus}`,
+      url: `/order_over_view/${id}`,
+    });
+
     return response.status(200).json({
       message: "Order status updated successfully",
     });
@@ -86,7 +109,7 @@ const updateAllController = async (request, response) => {
     await Order.findByIdAndUpdate(
       id,
       { $set: updateDelayOrder },
-      { new: true }
+      { new: true },
     );
     return response.status(200).json({
       message: "Order details updated successfully",
